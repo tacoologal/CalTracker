@@ -1,0 +1,20 @@
+{
+  "name": "CalTracker Pro",
+  "short_name": "CalTracker",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#e0c3fc",
+  "theme_color": "#6c5ce7",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2964/2964514.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2964/2964514.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

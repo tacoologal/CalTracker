@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CalTracker Pro</title>
+
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+
+    <!-- Sidebar Navigation (iPad / Desktop) -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        <h2>CalTracker</h2>
+      </div>
+      <nav class="nav-menu">
+        <a class="nav-item active" onclick="switchPage('home')">
+          <i class="fa-solid fa-house"></i> <span>หน้าหลัก</span>
+        </a>
+        <a class="nav-item" onclick="switchPage('record')">
+          <i class="fa-solid fa-circle-plus"></i> <span>บันทึกกิจกรรม</span>
+        </a>
+        <a class="nav-item" onclick="switchPage('calendar')">
+          <i class="fa-regular fa-calendar-days"></i> <span>ปฏิทิน</span>
+        </a>
+        <a class="nav-item" onclick="switchPage('history')">
+          <i class="fa-solid fa-clock-rotate-left"></i> <span>ประวัติข้อมูล</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+
+      <!-- Header Top Bar -->
+      <header class="top-header">
+        <div class="greeting">
+          <h1 id="pageTitle">สวัสดี! 👋</h1>
+          <p id="pageSubtitle">สถิติและเป้าหมายสุขภาพสัปดาห์นี้</p>
+        </div>
+        <div class="user-profile">
+          <span class="live-status"><i class="fa-solid fa-circle"></i> Sync</span>
+        </div>
+      </header>
+
+      <!-- PAGE 1: HOME DASHBOARD -->
+      <section id="page-home" class="page-view active">
+        <div class="dashboard-grid">
+          <div class="glass-card stat-summary">
+            <div class="stat-box">
+              <span class="stat-label">แคลอรีรวมสัปดาห์นี้ (อา.-ศ.)</span>
+              <h2 class="stat-value" id="dashWeeklyTotal">0 <small>kcal</small></h2>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">ออกกำลังกายสะสม</span>
+              <h2 class="stat-value" id="dashTotalCount">0 <small>ครั้ง</small></h2>
+            </div>
+          </div>
+
+          <div class="glass-card chart-card">
+            <div class="card-title">
+              <h3><i class="fa-solid fa-chart-line"></i> สถิติเผาผลาญแคลอรี (วันอาทิตย์ - วันศุกร์)</h3>
+            </div>
+            <div class="chart-wrapper">
+              <canvas id="weeklyChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 2: RECORD ACTIVITY FORM -->
+      <section id="page-record" class="page-view">
+        <div class="form-container">
+          <div class="glass-card">
+            <h3><i class="fa-solid fa-dumbbell"></i> บันทึกการออกกำลังกาย</h3>
+            <form id="workoutForm">
+              
+              <div class="input-group">
+                <label><i class="fa-solid fa-person-running"></i> เลือกประเภทกิจกรรม</label>
+                <select id="activityType" required>
+                  <option value="running">🏃‍♂️ การวิ่ง</option>
+                  <option value="walking">🚶‍♂️ การเดิน</option>
+                  <option value="cycling">🚴‍♂️ การปั่นจักรยาน</option>
+                  <option value="swimming">🏊‍♂️ การว่ายน้ำ</option>
+                  <option value="badminton">🏸 การตีแบต</option>
+                </select>
+              </div>
+
+              <div class="input-grid">
+                <div class="input-group" id="distGroup">
+                  <label><i class="fa-solid fa-route"></i> ระยะทาง (กม.)</label>
+                  <input type="number" id="distance" step="0.01" placeholder="เช่น 5.2">
+                </div>
+                <div class="input-group">
+                  <label><i class="fa-solid fa-stopwatch"></i> เวลาที่ใช้ (นาที)</label>
+                  <input type="number" id="duration" placeholder="เช่น 30" required>
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label><i class="fa-solid fa-weight-scale"></i> น้ำหนักตัวปัจจุบัน (กก.)</label>
+                <input type="number" id="weight" step="0.1" placeholder="เช่น 65.5" required>
+              </div>
+
+              <button type="submit" class="glow-button">
+                <i class="fa-solid fa-bolt"></i> คำนวณและบันทึกข้อมูล
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- PAGE 3: CALENDAR VIEW (MONTH NAVIGATOR) -->
+      <section id="page-calendar" class="page-view">
+        <div class="glass-card">
+          <div class="calendar-header-bar">
+            <button class="cal-nav-btn" onclick="changeMonth(-1)"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="cal-month-title">
+              <h3 id="currentMonthLabel">มกราคม 2026</h3>
+            </div>
+            <button class="cal-nav-btn" onclick="changeMonth(1)"><i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+          
+          <div id="calendarGrid" class="calendar-grid"></div>
+        </div>
+
+        <!-- Selected Date Details -->
+        <div class="glass-card" style="margin-top: 16px;">
+          <div class="selected-date-header">
+            <h4 id="selectedDateTitle"><i class="fa-solid fa-clock-rotate-left"></i> รายละเอียดการออกกำลังกาย</h4>
+            <span class="badge-total" id="selectedDateSummary">0 kcal</span>
+          </div>
+          <div id="selectedDateDetails" class="day-details-list"></div>
+        </div>
+      </section>
+
+      <!-- PAGE 4: HISTORY -->
+      <section id="page-history" class="page-view">
+        <div class="glass-card">
+          <h3><i class="fa-solid fa-list-check"></i> รายการประวัติทั้งหมด</h3>
+          <div id="historyList" class="history-container"></div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar (Mobile) -->
+    <nav class="bottom-nav">
+      <a class="nav-btn active" onclick="switchPage('home')">
+        <i class="fa-solid fa-house"></i>
+        <span>หน้าหลัก</span>
+      </a>
+      <a class="nav-btn" onclick="switchPage('record')">
+        <i class="fa-solid fa-circle-plus"></i>
+        <span>บันทึก</span>
+      </a>
+      <a class="nav-btn" onclick="switchPage('calendar')">
+        <i class="fa-regular fa-calendar-days"></i>
+        <span>ปฏิทิน</span>
+      </a>
+      <a class="nav-btn" onclick="switchPage('history')">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>ประวัติ</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
